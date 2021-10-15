@@ -20,4 +20,20 @@ afterAll(async () => {
 })
 test("this is an empty test", () => {
 	//empty test
+})
+
+test("Proper database env variable is set", () => {
+	expect(process.env.DB_ENV).toBe("testing");
 });
+
+ describe("[GET] /api/users", () => {
+		test("returns an array of users", async () => {
+			await db.seed.run();
+			const res = await request(server).get("/users");
+			// expect(res.body).toHaveLength(2);
+			res.body.forEach((user) => {
+				expect(user).toHaveProperty("id");
+				expect(user).toHaveProperty("username");
+			});
+		});
+ });
