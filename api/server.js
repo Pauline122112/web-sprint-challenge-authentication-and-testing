@@ -1,4 +1,4 @@
-
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -16,6 +16,7 @@ server.use(express.json());
 
 server.use("/api/auth", authRouter);
 server.use("/api/jokes", restrict, jokesRouter); // only logged-in users should have access!
+server.use(express.static(path.join(__dirname, "../client")));
 
 server.get("/", (req, res) => {
 	res.send("Hello it's working");
