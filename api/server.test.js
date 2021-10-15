@@ -1,6 +1,7 @@
-const request = require("supertest");
-const db = require("../data/dbConfig");
-const server = require("./server");
+const request = require("supertest")
+const db = require("../data/dbConfig")
+const server = require("./server")
+const Users = require("./users/users-model")
 
 test("sanity", () => {
 	expect(true).toBe(true);
@@ -22,7 +23,15 @@ test("this is an empty test", () => {
 	//empty test
 })
 
-test("Proper database env variable is set", () => {
-	expect(process.env.DB_ENV).toBe("testing");
-});
 
+    describe("[POST] /users", () => {
+    test("creates a user and return it", async () => {
+      const res = await request(server)
+        .post("/users")
+        .send({ username: "Pauline" });
+      expect(res.body).toMatchObject({ username: "Pauline" });
+      expect(await Users.getById(res.body.id)).toMatchObject({
+        username: "Pauline",
+      });
+    });
+  });
