@@ -23,15 +23,3 @@ test("this is an empty test", () => {
 	//empty test
 })
 
-
-    describe("[POST] /users", () => {
-    test("creates a user and return it", async () => {
-      const res = await request(server)
-        .post("/users")
-        .send({ username: "Pauline" });
-      expect(res.body).toMatchObject({ username: "Pauline" });
-      expect(await Users.getById(res.body.id)).toMatchObject({
-        username: "Pauline",
-      });
-    });
-  });
