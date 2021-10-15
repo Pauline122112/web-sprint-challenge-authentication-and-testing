@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
-const Users = require("./usersModel.js");
+const Users = require("./users-model")
+const { restricted } = require("../middleware/restricted")
 
-router.get('/' (req, res, next) => {
+router.get('/', restricted, (req, res, next) => {
   Users.find()
     .then((users) => {
       res.json(users)
@@ -10,7 +11,7 @@ router.get('/' (req, res, next) => {
     .catch(next)
 })
 
-router.get('/:user_id' (req, res, next) => {
+router.get('/:user_id', restricted, (req, res, next) => {
     Users.findById(req.params.user_id)
     .then((user) => {
         res.json(user)
