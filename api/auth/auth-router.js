@@ -1,8 +1,27 @@
-const router = require('express').Router();
+const router = require("express").Router()
+const bcrypt = require("bcryptjs")
+const Users = require("../users/users-model")
+const { tokenBuilder } = require("./token-builder")
 
-router.post('/register', (req, res) => {
-  res.end('implement register, please!');
-  /*
+const router = require("express").Router()
+
+// const { JWT_SECRET } = require("../secrets")
+// const bcrypt = require("bcryptjs")
+// const jwt = require("jsonwebtoken")
+
+// const User = require("../users/users-Model")
+
+router.post("/register", (req, res, next) => {
+	const { username, password } = req.body;
+	const { role_name } = req;
+	const hash = bcrypt.hashSync(password, 8)
+	User.add({ username, password: hash, role_name })
+		.then((newUser) => {
+			res.status(201).json(newUser)
+		})
+		.catch(next)
+
+	/*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
     DO NOT EXCEED 2^8 ROUNDS OF HASHING!
@@ -29,9 +48,9 @@ router.post('/register', (req, res) => {
   */
 });
 
-router.post('/login', (req, res) => {
-  res.end('implement login, please!');
-  /*
+router.post("/login", (req, res) => {
+	res.end("implement login, please!");
+	/*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
 
